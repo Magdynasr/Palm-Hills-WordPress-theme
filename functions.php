@@ -56,8 +56,14 @@ function palm_enqueue_assets() {
     // Main stylesheet (style.css = theme header only, main styles in assets)
     wp_enqueue_style( 'palm-style', get_stylesheet_uri(), [ 'palm-google-fonts' ], PALM_VERSION );
 
-    // Main CSS
-    wp_enqueue_style( 'palm-main', PALM_URI . '/assets/css/main.css', [ 'palm-style' ], PALM_VERSION );
+    // Main CSS — read from filesystem so it works regardless of URL/server config
+    $main_css_file = PALM_DIR . '/assets/css/main.css';
+    if ( file_exists( $main_css_file ) ) {
+        wp_add_inline_style( 'palm-style', file_get_contents( $main_css_file ) );
+    } else {
+        // Fallback: try enqueuing via URL
+        wp_enqueue_style( 'palm-main', PALM_URI . '/assets/css/main.css', [ 'palm-style' ], PALM_VERSION );
+    }
 
     // Main JS
     wp_enqueue_script( 'palm-main', PALM_URI . '/assets/js/main.js', [], PALM_VERSION, true );
