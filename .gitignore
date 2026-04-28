@@ -1,0 +1,26 @@
+# Claude Code
+.claude/
+
+# Zip archives
+*.zip
+
+# WordPress
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/backup-db/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/settings.json
+*.swp
+*.swo
+
+# Node (if used)
+node_modules/
