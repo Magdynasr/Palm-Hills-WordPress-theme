@@ -5,7 +5,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'PALM_VERSION', '1.0.0' );
+define( 'PALM_VERSION', '1.1.0' );
 define( 'PALM_DIR', get_template_directory() );
 define( 'PALM_URI', get_template_directory_uri() );
 
