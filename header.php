@@ -5,13 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="profile" href="https://gmpg.org/xfn/11">
     <style id="palm-critical">
-        /* Failsafe: keep mobile overlay off-screen before external CSS loads */
-        #nav-mobile { visibility: hidden; transform: translateX(100%); }
-        #nav-mobile.is-open { visibility: visible; transform: translateX(0); }
-        /* Keep desktop nav horizontal before external CSS loads */
-        .nav { display: flex; align-items: center; justify-content: space-between; }
-        .nav__list { display: flex; flex-direction: row; align-items: center; list-style: none; }
-        .nav__dropdown { opacity: 0; visibility: hidden; pointer-events: none; }
+        /* ── CRITICAL LAYOUT ── runs before external CSS, overridden by it where both apply ── */
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+        a{text-decoration:none;color:inherit;}
+        ul{list-style:none;}
+
+        /* CSS variables fallback */
+        :root{
+            --color-navy:#1a2744;--color-navy-dark:#111c36;--color-gold:#c9a84c;
+            --color-white:#fff;--color-gray-200:#e2e6f0;--color-gray-800:#2e3350;
+            --container-max:1200px;--header-height:80px;--space-6:1.5rem;
+        }
+
+        /* Container */
+        .container{width:100%;max-width:1200px;margin-left:auto;margin-right:auto;padding-left:1.5rem;padding-right:1.5rem;}
+
+        /* Topbar */
+        .topbar{background:#111c36;padding:10px 0;font-size:0.875rem;}
+        .topbar__inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+        .topbar__left,.topbar__right{display:flex;align-items:center;gap:1.25rem;}
+        .topbar__item{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.75);}
+        .topbar__portal{display:flex;align-items:center;gap:6px;color:#c9a84c;border:1px solid rgba(201,168,76,0.3);padding:5px 14px;border-radius:9999px;font-size:0.75rem;font-weight:500;}
+        .social-links{display:flex;align-items:center;gap:10px;}
+        .social-links__item{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;color:rgba(255,255,255,0.65);border:1px solid rgba(255,255,255,0.12);}
+
+        /* Header */
+        .header{position:sticky;top:0;z-index:1000;background:#fff;border-bottom:1px solid #e2e6f0;box-shadow:0 2px 20px rgba(26,39,68,0.06);}
+
+        /* Nav */
+        .nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;height:80px;gap:1.5rem;}
+        .nav__list{display:flex;flex-direction:row;align-items:center;flex:1;justify-content:center;gap:0.25rem;}
+        .nav__item{position:relative;}
+        .nav__link{display:flex;align-items:center;gap:4px;padding:8px 14px;font-size:0.875rem;font-weight:500;color:#2e3350;white-space:nowrap;border-radius:8px;}
+        .nav__actions{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+        .nav__hamburger{display:none;}
+
+        /* Logo */
+        .custom-logo-link{display:flex;align-items:center;flex-shrink:0;}
+        .custom-logo{height:64px;width:auto;max-height:64px;object-fit:contain;display:block;}
+        .nav__logo{flex-shrink:0;display:flex;align-items:center;gap:12px;}
+
+        /* Button */
+        .btn--primary{display:inline-flex;align-items:center;gap:8px;background:#c9a84c;color:#111c36;padding:10px 20px;border-radius:9999px;font-weight:600;font-size:0.875rem;white-space:nowrap;border:2px solid #c9a84c;}
+
+        /* Dropdown */
+        .nav__dropdown{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);min-width:220px;background:#fff;border-radius:16px;box-shadow:0 10px 40px rgba(26,39,68,0.14);border:1px solid #e2e6f0;padding:8px;z-index:100;}
+        .nav__item--has-children:hover .nav__dropdown{display:block;}
+        .nav__dropdown .nav__link{display:block;padding:10px 14px;}
+
+        /* Mobile overlay */
+        #nav-mobile{visibility:hidden;transform:translateX(100%);transition:transform 0.4s ease,visibility 0s 0.4s;}
+        #nav-mobile.is-open{visibility:visible;transform:translateX(0);transition:transform 0.4s ease,visibility 0s;}
+
+        /* Mobile breakpoint */
+        @media(max-width:768px){
+            .topbar{display:none;}
+            .nav__list{display:none;}
+            .nav__cta{display:none;}
+            .nav__hamburger{display:flex;flex-direction:column;gap:5px;padding:8px;cursor:pointer;background:none;border:none;}
+            .nav__hamburger span{display:block;width:22px;height:2px;background:#1a2744;border-radius:2px;}
+        }
     </style>
     <?php wp_head(); ?>
 </head>
