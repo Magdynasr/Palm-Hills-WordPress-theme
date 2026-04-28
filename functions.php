@@ -64,10 +64,16 @@ function palm_enqueue_assets() {
         wp_add_inline_style( 'palm-style', trim( $css ) );
     }
 
-    // Main JS
-    wp_enqueue_script( 'palm-main', PALM_URI . '/assets/js/main.js', [], PALM_VERSION, true );
+    // Inline JS from filesystem (bypasses URL/caching issues)
+    $js_file = PALM_DIR . '/assets/js/main.js';
+    if ( file_exists( $js_file ) ) {
+        wp_register_script( 'palm-main', false, [], PALM_VERSION, true );
+        wp_enqueue_script( 'palm-main' );
+        wp_add_inline_script( 'palm-main', file_get_contents( $js_file ) );
+    } else {
+        wp_enqueue_script( 'palm-main', PALM_URI . '/assets/js/main.js', [], PALM_VERSION, true );
+    }
 
-    // Pass data to JS
     wp_localize_script( 'palm-main', 'palmData', [
         'ajaxUrl' => admin_url( 'admin-ajax.php' ),
         'nonce'   => wp_create_nonce( 'palm_nonce' ),
