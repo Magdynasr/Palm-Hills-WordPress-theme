@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/elpimwvman51/public_html/wp-content/themes/palm-hills-school-theme/
+    - /bin/cp -R %PROJECT_DIR%/* $DEPLOYPATH
