@@ -53,8 +53,16 @@ function palm_enqueue_assets() {
         null
     );
 
-    // All styles are in style.css (theme root)
-    wp_enqueue_style( 'palm-style', get_stylesheet_uri(), [ 'palm-google-fonts' ], PALM_VERSION );
+    // Register handle without URL — CSS injected inline to bypass server/CDN caching
+    wp_register_style( 'palm-style', false, [ 'palm-google-fonts' ], PALM_VERSION );
+    wp_enqueue_style( 'palm-style' );
+
+    $css_file = PALM_DIR . '/style.css';
+    if ( file_exists( $css_file ) ) {
+        $css = file_get_contents( $css_file );
+        $css = preg_replace( '/^\/\*.*?\*\//s', '', $css ); // strip theme header comment
+        wp_add_inline_style( 'palm-style', trim( $css ) );
+    }
 
     // Main JS
     wp_enqueue_script( 'palm-main', PALM_URI . '/assets/js/main.js', [], PALM_VERSION, true );
